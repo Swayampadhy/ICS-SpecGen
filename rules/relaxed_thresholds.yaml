@@ -1,0 +1,8 @@
+# Deliberately loose thresholds for hypothesis H5: with these, the absolute rules barely bite,
+# so any remaining denial of a downgrade comes from the REG-* no-regression rules.
+min_canary_ratio: 0.0
+min_nx_ratio: 0.0
+max_critical_cves: 100000
+max_kev_cves: 100000
+max_high_cves_network: 100000
+min_sbom_identified_ratio: 0.0

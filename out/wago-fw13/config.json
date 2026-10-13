@@ -1,0 +1,20 @@
+{
+  "empty_password_accounts": [],
+  "weak_hash_accounts": [],
+  "default_password_accounts": [
+    "admin",
+    "root",
+    "user"
+  ],
+  "cleartext_services": [],
+  "ssh_server": "dropbear",
+  "ssh_root_login": true,
+  "ssh_password_auth": true,
+  "ssh_weak_algorithms": [],
+  "embedded_private_keys": [
+    "/etc/dropbear/dropbear_dss_host_key",
+    "/etc/dropbear/dropbear_ecdsa_host_key",
+    "/etc/dropbear/dropbear_rsa_host_key",
+    "/etc/lighttpd/https-cert.pem"
+  ]
+}

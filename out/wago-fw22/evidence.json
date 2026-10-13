@@ -1,0 +1,489 @@
+{
+  "schema_version": "1.0",
+  "target": {
+    "name": "wago-fw22",
+    "vendor": "WAGO",
+    "product": "PFC100/PFC200",
+    "version": "03.10.10(22)",
+    "image_file": "WAGO_FW0750-8x1x_V031010_IX22_SP1_r71749.img",
+    "image_sha256": "5fc6eeedfe058aabb9b7250a01561a8e208f268b0b85a220411e81efea9b92d0",
+    "image_sha512": "18cd65945fa820b6d11c03e7c6923386092c4566430ee46a1ae264f1c71a63cc11a065e59df24cc7224e334dcbd172b32eb58b7def6cd0a2c9a09c0af5cb220d",
+    "rootfs_layer": "L2",
+    "collected_at": "2026-10-13T10:23:10Z",
+    "collect_seconds": 65.7,
+    "specgen_version": "0.1.0",
+    "tools": {
+      "7z": "26.04",
+      "syft": "1.54.1",
+      "grype": "0.120.1",
+      "grype_db_built": "2026-10-13T06:35:20Z"
+    }
+  },
+  "hardening": {
+    "executables": 281,
+    "shared_libs": 529,
+    "kernel_modules": 14,
+    "elf_errors": 0,
+    "ratios": {
+      "canary": 0.032,
+      "nx": 0.9964,
+      "pie": 0.0534,
+      "relro_full": 0.0391,
+      "relro_partial": 0.9609,
+      "fortify": 0.0534
+    },
+    "ratios_network": {
+      "canary": 0.0741,
+      "nx": 0.963,
+      "pie": 0.037,
+      "relro_full": 0.037,
+      "relro_partial": 0.963,
+      "fortify": 0.0741
+    },
+    "ratios_libs": {
+      "canary": 0.0662,
+      "nx": 0.9981,
+      "relro_full": 0.0,
+      "relro_partial": 1.0,
+      "fortify": 0.0265
+    },
+    "insecure_rpath": [
+      "/usr/lib/libprotobuf-lite.so.3.19.4.0"
+    ],
+    "network_daemons": [
+      {
+        "path": "/etc/config-tools/config_dnsmasq_c",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/etc/config-tools/config_mdmd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/busybox",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/codesys3",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/dataagent",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/dbus-daemon",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/drm",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/eactingbox",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/iocheckd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/ledserverd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/mdm_cuse",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/netconfd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/pp_networking",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/progexecd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/bin/rauc",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/dnsmasq",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/dropbear",
+        "canary": true,
+        "nx": true,
+        "pie": true,
+        "relro_full": true,
+        "fortify": true
+      },
+      {
+        "path": "/usr/sbin/lighttpd",
+        "canary": true,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": true
+      },
+      {
+        "path": "/usr/sbin/openvpn",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/plclinux_rt",
+        "canary": false,
+        "nx": false,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/pppd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/snmp_config_agentd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/snmpd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/snmptrapd",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/syslog-ng",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/watchdog",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      },
+      {
+        "path": "/usr/sbin/webserver",
+        "canary": false,
+        "nx": true,
+        "pie": false,
+        "relro_full": false,
+        "fortify": false
+      }
+    ],
+    "binaries_ref": "hardening.json"
+  },
+  "sbom": {
+    "format": "CycloneDX-1.5",
+    "components": 167,
+    "with_version": 1.0,
+    "with_cpe_or_purl": 0.994,
+    "identified": 0.994,
+    "by_source": {
+      "carved": 4,
+      "license-files": 147,
+      "syft": 16
+    },
+    "eol_components": [
+      {
+        "name": "openssl",
+        "version": "1.1.1q",
+        "reason": "OpenSSL 1.x is past end of life (1.1.1 ended 2023-09-11)"
+      }
+    ],
+    "network_components": [
+      "busybox",
+      "dnsmasq",
+      "dropbear",
+      "expat",
+      "fuse3",
+      "glibc",
+      "libcap",
+      "libcgroup",
+      "libcurl",
+      "libffi",
+      "libnsl",
+      "liboslinux",
+      "libpcre",
+      "libuio",
+      "libxml2",
+      "lighttpd",
+      "mosquitto",
+      "openssl",
+      "openvpn",
+      "pam",
+      "rauc",
+      "watchdog",
+      "zlib"
+    ],
+    "ref": "sbom.cdx.json"
+  },
+  "vulns": {
+    "critical": 148,
+    "high": 2153,
+    "medium": 4100,
+    "low": 69,
+    "negligible": 0,
+    "unknown": 0,
+    "kev": 14,
+    "network_facing_critical_high": 138,
+    "top_components": [
+      {
+        "component": "linux",
+        "version": "5.15.71-rt51-w04.01.02",
+        "cves": 6005
+      },
+      {
+        "component": "libcurl",
+        "version": "7.84.0",
+        "cves": 56
+      },
+      {
+        "component": "glibc",
+        "version": "2.30",
+        "cves": 49
+      },
+      {
+        "component": "openssl",
+        "version": "1.1.1q",
+        "cves": 42
+      },
+      {
+        "component": "expat",
+        "version": "2.4.9",
+        "cves": 35
+      },
+      {
+        "component": "libxml2",
+        "version": "2.9.14",
+        "cves": 34
+      },
+      {
+        "component": "openssh",
+        "version": "8.9p1",
+        "cves": 34
+      },
+      {
+        "component": "php7",
+        "version": "7.4.30+wago1",
+        "cves": 32
+      },
+      {
+        "component": "glib",
+        "version": "2.64.4",
+        "cves": 23
+      },
+      {
+        "component": "libarchive",
+        "version": "3.6.1",
+        "cves": 20
+      }
+    ],
+    "kev_hits": [
+      {
+        "cve": "CVE-2023-0266",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2023-0386",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2023-44487",
+        "component": "grpc"
+      },
+      {
+        "cve": "CVE-2024-1086",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2024-36971",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2024-4577",
+        "component": "php7"
+      },
+      {
+        "cve": "CVE-2024-50302",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2024-53104",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2024-53150",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2024-53197",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2025-38352",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2025-39964",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2026-31431",
+        "component": "linux"
+      },
+      {
+        "cve": "CVE-2026-53266",
+        "component": "linux"
+      }
+    ],
+    "kev_catalog": "2026.10.08",
+    "ref": "vulns.json"
+  },
+  "integrity": {
+    "manifest_ref": "integrity_manifest.json",
+    "manifest_entries": 1473,
+    "image_sha256": "5fc6eeedfe058aabb9b7250a01561a8e208f268b0b85a220411e81efea9b92d0",
+    "image_signature": "absent",
+    "verified_update_mechanism": "present",
+    "boot_integrity": "absent",
+    "signature_indicators": [
+      {
+        "class": "update",
+        "type": "rauc_keyring",
+        "path": "/etc/rauc/system.conf.pfcv1",
+        "detail": "RAUC verifies bundle signatures against a keyring"
+      },
+      {
+        "class": "update",
+        "type": "rauc_keyring",
+        "path": "/etc/rauc/system.conf.pfcv2",
+        "detail": "RAUC verifies bundle signatures against a keyring"
+      },
+      {
+        "class": "update",
+        "type": "rauc_keyring",
+        "path": "/etc/rauc/system.conf.pfcv3",
+        "detail": "RAUC verifies bundle signatures against a keyring"
+      }
+    ]
+  },
+  "config": {
+    "empty_password_accounts": [],
+    "weak_hash_accounts": [],
+    "default_password_accounts": [
+      "admin",
+      "root",
+      "user"
+    ],
+    "cleartext_services": [],
+    "ssh_server": "dropbear",
+    "ssh_root_login": true,
+    "ssh_password_auth": true,
+    "ssh_weak_algorithms": [],
+    "embedded_private_keys": [
+      "/etc/dropbear/dropbear_dss_host_key",
+      "/etc/dropbear/dropbear_ecdsa_host_key",
+      "/etc/dropbear/dropbear_rsa_host_key",
+      "/etc/lighttpd/https-cert.pem",
+      "/etc/specific/opcua-server/pki/own/key.pem"
+    ]
+  }
+}

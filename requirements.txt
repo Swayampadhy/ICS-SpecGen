@@ -1,0 +1,6 @@
+pyelftools>=0.29
+PyYAML>=6.0
+Jinja2>=3.0
+jsonschema>=4.0
+passlib>=1.7    # shadow-hash verification; Python's crypt module does not exist on Windows
+pytest>=7.0     # tests only

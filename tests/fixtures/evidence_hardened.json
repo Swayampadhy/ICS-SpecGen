@@ -1,0 +1,36 @@
+{
+  "schema_version": "1.0",
+  "target": {
+    "name": "fixture-hardened", "vendor": "ACME", "product": "PLC-1", "version": "2.0",
+    "image_file": "hardened.img", "image_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "rootfs_layer": "L2", "collected_at": "2026-10-13T00:00:00Z", "collect_seconds": 1.0, "specgen_version": "0.1.0",
+    "tools": {"7z": "26.04", "syft": "1.54.1", "grype": "0.120.1", "grype_db_built": "2026-10-13T00:00:00Z"}
+  },
+  "hardening": {
+    "executables": 100, "shared_libs": 50, "kernel_modules": 10, "elf_errors": 0,
+    "ratios": {"canary": 0.97, "nx": 1.0, "pie": 0.95, "relro_full": 0.9, "relro_partial": 0.1, "fortify": 0.8},
+    "ratios_network": {"canary": 1.0, "nx": 1.0, "pie": 1.0, "relro_full": 1.0, "relro_partial": 0.0, "fortify": 1.0},
+    "ratios_libs": {"canary": 0.9, "nx": 1.0, "relro_full": 0.9, "relro_partial": 0.1, "fortify": 0.7},
+    "insecure_rpath": [],
+    "network_daemons": [{"path": "/usr/bin/iocheckd", "canary": true, "nx": true, "pie": true, "relro_full": true, "fortify": true}],
+    "binaries_ref": "hardening.json"
+  },
+  "sbom": {
+    "format": "CycloneDX-1.5", "components": 220, "with_version": 1.0, "with_cpe_or_purl": 1.0, "identified": 1.0,
+    "by_source": {"opkg": 210, "syft": 10}, "eol_components": [], "network_components": ["openssl"], "ref": "sbom.cdx.json"
+  },
+  "vulns": {
+    "critical": 0, "high": 4, "medium": 20, "low": 5, "negligible": 0, "unknown": 0, "kev": 0,
+    "network_facing_critical_high": 1, "top_components": [], "kev_hits": [], "kev_catalog": "2026.10.08", "ref": "vulns.json"
+  },
+  "integrity": {
+    "manifest_ref": "integrity_manifest.json", "manifest_entries": 10, "image_sha256": "2222222222222222222222222222222222222222222222222222222222222222",
+    "image_signature": "present", "verified_update_mechanism": "present", "boot_integrity": "present",
+    "signature_indicators": [{"class": "update", "type": "rauc_keyring", "path": "/etc/rauc/system.conf", "detail": "x"}]
+  },
+  "config": {
+    "empty_password_accounts": [], "weak_hash_accounts": [], "default_password_accounts": [],
+    "cleartext_services": [], "ssh_server": "openssh", "ssh_root_login": false, "ssh_password_auth": true,
+    "ssh_weak_algorithms": [], "embedded_private_keys": []
+  }
+}

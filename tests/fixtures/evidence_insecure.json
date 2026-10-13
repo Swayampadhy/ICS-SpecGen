@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "target": {
+    "name": "fixture-insecure", "vendor": "ACME", "product": "PLC-1", "version": "1.0",
+    "image_file": "insecure.img", "image_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "rootfs_layer": "L2", "collected_at": "2026-10-13T00:00:00Z", "collect_seconds": 1.0, "specgen_version": "0.1.0",
+    "tools": {"7z": "26.04", "syft": "1.54.1", "grype": "0.120.1", "grype_db_built": "2026-10-13T00:00:00Z"}
+  },
+  "hardening": {
+    "executables": 100, "shared_libs": 50, "kernel_modules": 10, "elf_errors": 0,
+    "ratios": {"canary": 0.3, "nx": 0.98, "pie": 0.05, "relro_full": 0.02, "relro_partial": 0.9, "fortify": 0.2},
+    "ratios_network": {"canary": 0.0, "nx": 1.0, "pie": 0.0, "relro_full": 0.0, "relro_partial": 1.0, "fortify": 0.0},
+    "ratios_libs": {"canary": 0.5, "nx": 1.0, "relro_full": 0.0, "relro_partial": 1.0, "fortify": 0.3},
+    "insecure_rpath": [],
+    "network_daemons": [{"path": "/usr/bin/iocheckd", "canary": false, "nx": true, "pie": false, "relro_full": false, "fortify": false}],
+    "binaries_ref": "hardening.json"
+  },
+  "sbom": {
+    "format": "CycloneDX-1.5", "components": 200, "with_version": 0.9, "with_cpe_or_purl": 0.8, "identified": 0.75,
+    "by_source": {"opkg": 190, "syft": 10},
+    "eol_components": [{"name": "openssl", "version": "1.0.2q", "reason": "OpenSSL 1.x is past end of life"}],
+    "network_components": ["openssl"], "ref": "sbom.cdx.json"
+  },
+  "vulns": {
+    "critical": 12, "high": 57, "medium": 140, "low": 18, "negligible": 0, "unknown": 0, "kev": 3,
+    "network_facing_critical_high": 9,
+    "top_components": [{"component": "openssl", "version": "1.0.2q", "cves": 44}],
+    "kev_hits": [{"cve": "CVE-2019-11043", "component": "php7"}], "kev_catalog": "2026.10.08", "ref": "vulns.json"
+  },
+  "integrity": {
+    "manifest_ref": "integrity_manifest.json", "manifest_entries": 10, "image_sha256": "1111111111111111111111111111111111111111111111111111111111111111",
+    "image_signature": "absent", "verified_update_mechanism": "absent", "boot_integrity": "absent", "signature_indicators": []
+  },
+  "config": {
+    "empty_password_accounts": [], "weak_hash_accounts": ["admin"], "default_password_accounts": ["root"],
+    "cleartext_services": ["ftpd", "telnetd"], "ssh_server": "dropbear", "ssh_root_login": true, "ssh_password_auth": true,
+    "ssh_weak_algorithms": [], "embedded_private_keys": ["/etc/dropbear/dropbear_rsa_host_key"]
+  }
+}

@@ -1,0 +1,28 @@
+{
+  "manifest_ref": "integrity_manifest.json",
+  "manifest_entries": 1473,
+  "image_sha256": "5fc6eeedfe058aabb9b7250a01561a8e208f268b0b85a220411e81efea9b92d0",
+  "image_signature": "absent",
+  "verified_update_mechanism": "present",
+  "boot_integrity": "absent",
+  "signature_indicators": [
+    {
+      "class": "update",
+      "type": "rauc_keyring",
+      "path": "/etc/rauc/system.conf.pfcv1",
+      "detail": "RAUC verifies bundle signatures against a keyring"
+    },
+    {
+      "class": "update",
+      "type": "rauc_keyring",
+      "path": "/etc/rauc/system.conf.pfcv2",
+      "detail": "RAUC verifies bundle signatures against a keyring"
+    },
+    {
+      "class": "update",
+      "type": "rauc_keyring",
+      "path": "/etc/rauc/system.conf.pfcv3",
+      "detail": "RAUC verifies bundle signatures against a keyring"
+    }
+  ]
+}

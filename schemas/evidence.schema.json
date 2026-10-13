@@ -1,0 +1,102 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://ics-specgen/evidence.schema.json",
+  "title": "ICS-SpecGen normalized evidence",
+  "type": "object",
+  "required": ["schema_version", "target", "hardening", "sbom", "vulns", "integrity", "config"],
+  "$defs": {
+    "ratio": {"type": ["number", "null"], "minimum": 0, "maximum": 1},
+    "count": {"type": ["integer", "null"], "minimum": 0},
+    "ratios": {
+      "type": "object",
+      "properties": {
+        "canary": {"$ref": "#/$defs/ratio"}, "nx": {"$ref": "#/$defs/ratio"}, "pie": {"$ref": "#/$defs/ratio"},
+        "relro_full": {"$ref": "#/$defs/ratio"}, "relro_partial": {"$ref": "#/$defs/ratio"},
+        "fortify": {"$ref": "#/$defs/ratio"}
+      }
+    },
+    "strings": {"type": "array", "items": {"type": "string"}},
+    "presence": {"enum": ["present", "absent", "unknown"]}
+  },
+  "properties": {
+    "schema_version": {"const": "1.0"},
+    "target": {
+      "type": "object",
+      "required": ["name", "version", "image_file", "image_sha256", "collected_at", "specgen_version", "tools"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "image_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "tools": {"type": "object"}
+      }
+    },
+    "hardening": {
+      "type": "object",
+      "required": ["executables", "shared_libs", "ratios", "network_daemons"],
+      "properties": {
+        "executables": {"type": "integer", "minimum": 0},
+        "shared_libs": {"type": "integer", "minimum": 0},
+        "ratios": {"$ref": "#/$defs/ratios", "required": ["canary", "nx", "pie", "relro_full", "relro_partial", "fortify"]},
+        "ratios_network": {"$ref": "#/$defs/ratios"},
+        "ratios_libs": {"$ref": "#/$defs/ratios"},
+        "network_daemons": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": ["path", "canary", "nx", "pie", "relro_full"],
+            "properties": {
+              "path": {"type": "string"}, "canary": {"type": "boolean"}, "nx": {"type": "boolean"},
+              "pie": {"type": "boolean"}, "relro_full": {"type": "boolean"}, "fortify": {"type": "boolean"}
+            }
+          }
+        }
+      }
+    },
+    "sbom": {
+      "type": "object",
+      "required": ["components", "with_version", "with_cpe_or_purl", "identified", "eol_components"],
+      "properties": {
+        "components": {"type": "integer", "minimum": 0},
+        "with_version": {"$ref": "#/$defs/ratio"},
+        "with_cpe_or_purl": {"$ref": "#/$defs/ratio"},
+        "identified": {"$ref": "#/$defs/ratio"},
+        "eol_components": {
+          "type": "array",
+          "items": {"type": "object", "required": ["name", "version", "reason"]}
+        },
+        "network_components": {"$ref": "#/$defs/strings"}
+      }
+    },
+    "vulns": {
+      "type": "object",
+      "required": ["critical", "high", "medium", "low", "kev", "network_facing_critical_high"],
+      "properties": {
+        "critical": {"$ref": "#/$defs/count"}, "high": {"$ref": "#/$defs/count"},
+        "medium": {"$ref": "#/$defs/count"}, "low": {"$ref": "#/$defs/count"},
+        "kev": {"$ref": "#/$defs/count"}, "network_facing_critical_high": {"$ref": "#/$defs/count"}
+      }
+    },
+    "integrity": {
+      "type": "object",
+      "required": ["image_signature", "verified_update_mechanism", "boot_integrity", "signature_indicators"],
+      "properties": {
+        "image_signature": {"$ref": "#/$defs/presence"},
+        "verified_update_mechanism": {"$ref": "#/$defs/presence"},
+        "boot_integrity": {"$ref": "#/$defs/presence"},
+        "signature_indicators": {"type": "array"}
+      }
+    },
+    "config": {
+      "type": "object",
+      "required": ["empty_password_accounts", "weak_hash_accounts", "default_password_accounts",
+                   "cleartext_services", "embedded_private_keys"],
+      "properties": {
+        "empty_password_accounts": {"$ref": "#/$defs/strings"},
+        "weak_hash_accounts": {"$ref": "#/$defs/strings"},
+        "default_password_accounts": {"anyOf": [{"$ref": "#/$defs/strings"}, {"type": "null"}]},
+        "cleartext_services": {"$ref": "#/$defs/strings"},
+        "ssh_root_login": {"type": ["boolean", "null"]},
+        "embedded_private_keys": {"$ref": "#/$defs/strings"}
+      }
+    }
+  }
+}

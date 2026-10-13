@@ -1,0 +1,355 @@
+{
+  "target": "wago-fw22",
+  "ruleset_version": 1,
+  "thresholds": {
+    "min_canary_ratio": 0.9,
+    "min_nx_ratio": 1.0,
+    "max_critical_cves": 0,
+    "max_kev_cves": 0,
+    "max_high_cves_network": 5,
+    "min_sbom_identified_ratio": 0.9
+  },
+  "summary": {
+    "PASS": 3,
+    "FAIL": 10,
+    "N/A": 0
+  },
+  "findings": [
+    {
+      "rule_id": "MS-01",
+      "category": "memory_safety",
+      "severity": "high",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/hardening/ratios/canary",
+          "observed": 0.032,
+          "expected": ">= 0.9",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The supplier shall compile all firmware user-space binaries with stack protection (-fstack-protector-strong or equivalent) and provide build-flag evidence with each release.",
+      "acceptance_test": "at least 90% of executables carry stack canaries",
+      "iec62443": [
+        "62443-4-1:SI-2",
+        "62443-4-1:SD-4",
+        "62443-4-2:CR 3.5"
+      ],
+      "rationale": "Stack canaries detect linear stack buffer overflows (the bug class behind the TALOS-2019-0862 family of iocheckd issues) and turn exploitation into a crash."
+    },
+    {
+      "rule_id": "MS-02",
+      "category": "memory_safety",
+      "severity": "critical",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/hardening/network_daemons",
+          "observed": [
+            "/etc/config-tools/config_dnsmasq_c",
+            "/etc/config-tools/config_mdmd",
+            "/usr/bin/busybox",
+            "/usr/bin/codesys3",
+            "/usr/bin/dataagent",
+            "/usr/bin/dbus-daemon",
+            "/usr/bin/drm",
+            "/usr/bin/eactingbox",
+            "/usr/bin/iocheckd",
+            "/usr/bin/ledserverd",
+            "/usr/bin/mdm_cuse",
+            "/usr/bin/netconfd",
+            "/usr/bin/pp_networking",
+            "/usr/bin/progexecd",
+            "/usr/bin/rauc",
+            "/usr/sbin/dnsmasq",
+            "/usr/sbin/lighttpd",
+            "/usr/sbin/openvpn",
+            "/usr/sbin/plclinux_rt",
+            "/usr/sbin/pppd",
+            "/usr/sbin/snmp_config_agentd",
+            "/usr/sbin/snmpd",
+            "/usr/sbin/snmptrapd",
+            "/usr/sbin/syslog-ng",
+            "/usr/sbin/watchdog",
+            "/usr/sbin/webserver"
+          ],
+          "expected": "all have canary, pie, relro_full, nx",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The supplier shall harden all network-exposed services with stack canaries, PIE, full RELRO and NX.",
+      "acceptance_test": "every network-facing daemon has canary, PIE, full RELRO and NX",
+      "iec62443": [
+        "62443-4-1:SI-2",
+        "62443-4-1:SD-4",
+        "62443-4-2:CR 3.5",
+        "62443-4-2:CR 7.7"
+      ],
+      "rationale": "Network daemons are the remotely reachable attack surface; a missing mitigation there matters more than in a local CLI tool."
+    },
+    {
+      "rule_id": "MS-03",
+      "category": "memory_safety",
+      "severity": "high",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/hardening/ratios/nx",
+          "observed": 0.9964,
+          "expected": ">= 1.0",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The supplier shall ensure that no executable stack segments ship in the firmware.",
+      "acceptance_test": "100% of executables have a non-executable stack",
+      "iec62443": [
+        "62443-4-1:SD-4"
+      ],
+      "rationale": "An executable stack makes injected shellcode directly runnable."
+    },
+    {
+      "rule_id": "DH-01",
+      "category": "dependency_hygiene",
+      "severity": "medium",
+      "status": "PASS",
+      "checks": [
+        {
+          "evidence_ref": "/sbom/identified",
+          "observed": 0.994,
+          "expected": ">= 0.9",
+          "status": "PASS"
+        }
+      ],
+      "requirement": "The supplier shall deliver a machine-readable SBOM (CycloneDX or SPDX) with each release, covering at least 90 % of components with version and identifier (purl or CPE).",
+      "acceptance_test": "at least 90% of SBOM components have a version and a purl/CPE",
+      "iec62443": [
+        "62443-4-1:SM-9"
+      ],
+      "rationale": "Without an identified component inventory, vulnerability management is guesswork (SM-9 mapping to be confirmed)."
+    },
+    {
+      "rule_id": "DH-02",
+      "category": "dependency_hygiene",
+      "severity": "critical",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/vulns/critical",
+          "observed": 148,
+          "expected": "<= 0",
+          "status": "FAIL"
+        },
+        {
+          "evidence_ref": "/vulns/kev",
+          "observed": 14,
+          "expected": "<= 0",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The supplier shall ship no known critical or actively exploited vulnerabilities in third-party components at delivery, or provide a VEX statement justifying non-exploitability.",
+      "acceptance_test": "no more than 0 critical and 0 KEV-listed CVEs",
+      "iec62443": [
+        "62443-4-1:SM-9",
+        "62443-4-1:DM-1..DM-6",
+        "62443-4-1:SVV-3"
+      ],
+      "rationale": "Critical and actively exploited CVEs are the most likely entry points in the field."
+    },
+    {
+      "rule_id": "DH-03",
+      "category": "dependency_hygiene",
+      "severity": "high",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/vulns/network_facing_critical_high",
+          "observed": 138,
+          "expected": "<= 5",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The supplier shall remediate high-severity CVEs in network-facing components within an agreed SLA (e.g. 90 days).",
+      "acceptance_test": "no more than 5 critical/high CVEs in network-facing components",
+      "iec62443": [
+        "62443-4-1:DM-4",
+        "62443-4-1:DM-5",
+        "62443-4-1:SUM-1..SUM-5"
+      ],
+      "rationale": "Network-facing components are reachable without local access."
+    },
+    {
+      "rule_id": "DH-04",
+      "category": "dependency_hygiene",
+      "severity": "high",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/sbom/eol_components",
+          "observed": [
+            {
+              "name": "openssl",
+              "version": "1.1.1q",
+              "reason": "OpenSSL 1.x is past end of life (1.1.1 ended 2023-09-11)"
+            }
+          ],
+          "expected": "empty",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The supplier shall not ship components past upstream end-of-life without a documented support arrangement.",
+      "acceptance_test": "no end-of-life components (e.g. OpenSSL 1.x, pre-5.10 kernels)",
+      "iec62443": [
+        "62443-4-1:SM-9"
+      ],
+      "rationale": "End-of-life components no longer receive security fixes."
+    },
+    {
+      "rule_id": "CI-01",
+      "category": "crypto_integrity",
+      "severity": "high",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/integrity/image_signature",
+          "observed": "absent",
+          "expected": "== present",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The supplier shall provide a signed SHA-256 digest manifest for every firmware release before site commissioning.",
+      "acceptance_test": "a vendor signature or signed digest accompanies the image",
+      "iec62443": [
+        "62443-4-2:CR 3.4",
+        "62443-4-1:SUM-4"
+      ],
+      "rationale": "The asset owner needs a way to verify that the image is the one the vendor released."
+    },
+    {
+      "rule_id": "CI-02",
+      "category": "crypto_integrity",
+      "severity": "critical",
+      "status": "PASS",
+      "checks": [
+        {
+          "evidence_ref": "/integrity/verified_update_mechanism",
+          "observed": "present",
+          "expected": "== present",
+          "status": "PASS"
+        }
+      ],
+      "requirement": "The device shall verify the authenticity and integrity of firmware updates before installation.",
+      "acceptance_test": "a signature-verifying update mechanism is present (e.g. RAUC keyring)",
+      "iec62443": [
+        "62443-4-2:EDR 3.10",
+        "62443-4-2:CR 3.4"
+      ],
+      "rationale": "Unsigned updates let anyone with network access replace the firmware."
+    },
+    {
+      "rule_id": "CI-03",
+      "category": "crypto_integrity",
+      "severity": "medium",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/integrity/boot_integrity",
+          "observed": "absent",
+          "expected": "== present",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The supplier shall document and enable boot-integrity protection (signed FIT, dm-verity or secure boot).",
+      "acceptance_test": "boot-integrity indicators are present",
+      "iec62443": [
+        "62443-4-2:EDR 3.14"
+      ],
+      "rationale": "Without boot integrity, a modified root filesystem persists across reboots."
+    },
+    {
+      "rule_id": "SD-01",
+      "category": "secure_defaults",
+      "severity": "high",
+      "status": "PASS",
+      "checks": [
+        {
+          "evidence_ref": "/config/cleartext_services",
+          "observed": [],
+          "expected": "empty",
+          "status": "PASS"
+        }
+      ],
+      "requirement": "Clear-text management services (Telnet, FTP, TFTP, rsh, HTTP) shall be disabled by default.",
+      "acceptance_test": "no clear-text services enabled by default",
+      "iec62443": [
+        "62443-4-2:CR 7.7",
+        "62443-4-2:CR 4.1",
+        "62443-4-1:SD-4"
+      ],
+      "rationale": "Clear-text protocols expose credentials and commands on the plant network."
+    },
+    {
+      "rule_id": "SD-02",
+      "category": "secure_defaults",
+      "severity": "critical",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/config/empty_password_accounts",
+          "observed": [],
+          "expected": "empty",
+          "status": "PASS"
+        },
+        {
+          "evidence_ref": "/config/weak_hash_accounts",
+          "observed": [],
+          "expected": "empty",
+          "status": "PASS"
+        },
+        {
+          "evidence_ref": "/config/default_password_accounts",
+          "observed": [
+            "admin",
+            "root",
+            "user"
+          ],
+          "expected": "empty",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "The device shall force a change of default credentials at first use and store password hashes with a modern KDF.",
+      "acceptance_test": "no empty, weakly hashed or documented default passwords",
+      "iec62443": [
+        "62443-4-2:CR 1.5",
+        "62443-4-2:CR 1.7"
+      ],
+      "rationale": "Documented default passwords are the first thing an attacker tries."
+    },
+    {
+      "rule_id": "SD-03",
+      "category": "secure_defaults",
+      "severity": "critical",
+      "status": "FAIL",
+      "checks": [
+        {
+          "evidence_ref": "/config/embedded_private_keys",
+          "observed": [
+            "/etc/dropbear/dropbear_dss_host_key",
+            "/etc/dropbear/dropbear_ecdsa_host_key",
+            "/etc/dropbear/dropbear_rsa_host_key",
+            "/etc/lighttpd/https-cert.pem",
+            "/etc/specific/opcua-server/pki/own/key.pem"
+          ],
+          "expected": "empty",
+          "status": "FAIL"
+        }
+      ],
+      "requirement": "Unique key material shall be generated per device at provisioning; no private keys shall be shipped in the firmware image.",
+      "acceptance_test": "no private keys in the image",
+      "iec62443": [
+        "62443-4-2:CR 1.5",
+        "62443-4-2:EDR 3.12"
+      ],
+      "rationale": "A key shipped in the image is shared by every device and can be extracted from the download."
+    }
+  ]
+}

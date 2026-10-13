@@ -1,0 +1,48 @@
+{
+  "image": "WAGO_FW0750-8x1x_V031010_IX22_SP1_r71749.img",
+  "hashes": {
+    "sha256": "5fc6eeedfe058aabb9b7250a01561a8e208f268b0b85a220411e81efea9b92d0",
+    "sha512": "18cd65945fa820b6d11c03e7c6923386092c4566430ee46a1ae264f1c71a63cc11a065e59df24cc7224e334dcbd172b32eb58b7def6cd0a2c9a09c0af5cb220d"
+  },
+  "layers": [
+    {
+      "source": "WAGO_FW0750-8x1x_V031010_IX22_SP1_r71749.img",
+      "type": "mbr/fat",
+      "depth": 0,
+      "out": "L0",
+      "exit_code": 0,
+      "symlinks": 0,
+      "errors": 0,
+      "rootfs_score": 0
+    },
+    {
+      "source": "L0\\0.fat",
+      "type": "mbr/fat",
+      "depth": 1,
+      "out": "L1",
+      "exit_code": 0,
+      "symlinks": 0,
+      "errors": 0,
+      "rootfs_score": 0
+    },
+    {
+      "source": "L0\\1.img",
+      "type": "ext",
+      "depth": 1,
+      "out": "L2",
+      "exit_code": 2,
+      "symlinks": 857,
+      "errors": 0,
+      "rootfs_score": 5
+    }
+  ],
+  "rootfs_candidates": [
+    {
+      "layer": "L2",
+      "score": 5,
+      "files": 3119
+    }
+  ],
+  "rootfs": "L2",
+  "errors": []
+}

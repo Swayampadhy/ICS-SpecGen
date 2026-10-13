@@ -1,0 +1,342 @@
+{
+  "icsspecgen": {
+    "thresholds": {
+      "min_canary_ratio": 0.9,
+      "min_nx_ratio": 1.0,
+      "max_critical_cves": 0,
+      "max_kev_cves": 0,
+      "max_high_cves_network": 5,
+      "min_sbom_identified_ratio": 0.9
+    },
+    "rules": [
+      {
+        "id": "MS-01",
+        "category": "memory_safety",
+        "severity": "high",
+        "iec62443": [
+          "62443-4-1:SI-2",
+          "62443-4-1:SD-4",
+          "62443-4-2:CR 3.5"
+        ],
+        "checks": [
+          {
+            "evidence": "hardening.ratios.canary",
+            "path": [
+              "hardening",
+              "ratios",
+              "canary"
+            ],
+            "evidence_ref": "/hardening/ratios/canary",
+            "op": ">=",
+            "threshold": "min_canary_ratio"
+          }
+        ]
+      },
+      {
+        "id": "MS-02",
+        "category": "memory_safety",
+        "severity": "critical",
+        "iec62443": [
+          "62443-4-1:SI-2",
+          "62443-4-1:SD-4",
+          "62443-4-2:CR 3.5",
+          "62443-4-2:CR 7.7"
+        ],
+        "checks": [
+          {
+            "evidence": "hardening.network_daemons",
+            "path": [
+              "hardening",
+              "network_daemons"
+            ],
+            "evidence_ref": "/hardening/network_daemons",
+            "op": "all_true",
+            "value": [
+              "canary",
+              "pie",
+              "relro_full",
+              "nx"
+            ]
+          }
+        ]
+      },
+      {
+        "id": "MS-03",
+        "category": "memory_safety",
+        "severity": "high",
+        "iec62443": [
+          "62443-4-1:SD-4"
+        ],
+        "checks": [
+          {
+            "evidence": "hardening.ratios.nx",
+            "path": [
+              "hardening",
+              "ratios",
+              "nx"
+            ],
+            "evidence_ref": "/hardening/ratios/nx",
+            "op": ">=",
+            "threshold": "min_nx_ratio"
+          }
+        ]
+      },
+      {
+        "id": "DH-01",
+        "category": "dependency_hygiene",
+        "severity": "medium",
+        "iec62443": [
+          "62443-4-1:SM-9"
+        ],
+        "checks": [
+          {
+            "evidence": "sbom.identified",
+            "path": [
+              "sbom",
+              "identified"
+            ],
+            "evidence_ref": "/sbom/identified",
+            "op": ">=",
+            "threshold": "min_sbom_identified_ratio"
+          }
+        ]
+      },
+      {
+        "id": "DH-02",
+        "category": "dependency_hygiene",
+        "severity": "critical",
+        "iec62443": [
+          "62443-4-1:SM-9",
+          "62443-4-1:DM-1..DM-6",
+          "62443-4-1:SVV-3"
+        ],
+        "checks": [
+          {
+            "evidence": "vulns.critical",
+            "path": [
+              "vulns",
+              "critical"
+            ],
+            "evidence_ref": "/vulns/critical",
+            "op": "<=",
+            "threshold": "max_critical_cves"
+          },
+          {
+            "evidence": "vulns.kev",
+            "path": [
+              "vulns",
+              "kev"
+            ],
+            "evidence_ref": "/vulns/kev",
+            "op": "<=",
+            "threshold": "max_kev_cves"
+          }
+        ]
+      },
+      {
+        "id": "DH-03",
+        "category": "dependency_hygiene",
+        "severity": "high",
+        "iec62443": [
+          "62443-4-1:DM-4",
+          "62443-4-1:DM-5",
+          "62443-4-1:SUM-1..SUM-5"
+        ],
+        "checks": [
+          {
+            "evidence": "vulns.network_facing_critical_high",
+            "path": [
+              "vulns",
+              "network_facing_critical_high"
+            ],
+            "evidence_ref": "/vulns/network_facing_critical_high",
+            "op": "<=",
+            "threshold": "max_high_cves_network"
+          }
+        ]
+      },
+      {
+        "id": "DH-04",
+        "category": "dependency_hygiene",
+        "severity": "high",
+        "iec62443": [
+          "62443-4-1:SM-9"
+        ],
+        "checks": [
+          {
+            "evidence": "sbom.eol_components",
+            "path": [
+              "sbom",
+              "eol_components"
+            ],
+            "evidence_ref": "/sbom/eol_components",
+            "op": "empty",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "id": "CI-01",
+        "category": "crypto_integrity",
+        "severity": "high",
+        "iec62443": [
+          "62443-4-2:CR 3.4",
+          "62443-4-1:SUM-4"
+        ],
+        "checks": [
+          {
+            "evidence": "integrity.image_signature",
+            "path": [
+              "integrity",
+              "image_signature"
+            ],
+            "evidence_ref": "/integrity/image_signature",
+            "op": "==",
+            "value": "present"
+          }
+        ]
+      },
+      {
+        "id": "CI-02",
+        "category": "crypto_integrity",
+        "severity": "critical",
+        "iec62443": [
+          "62443-4-2:EDR 3.10",
+          "62443-4-2:CR 3.4"
+        ],
+        "checks": [
+          {
+            "evidence": "integrity.verified_update_mechanism",
+            "path": [
+              "integrity",
+              "verified_update_mechanism"
+            ],
+            "evidence_ref": "/integrity/verified_update_mechanism",
+            "op": "==",
+            "value": "present"
+          }
+        ]
+      },
+      {
+        "id": "CI-03",
+        "category": "crypto_integrity",
+        "severity": "medium",
+        "iec62443": [
+          "62443-4-2:EDR 3.14"
+        ],
+        "checks": [
+          {
+            "evidence": "integrity.boot_integrity",
+            "path": [
+              "integrity",
+              "boot_integrity"
+            ],
+            "evidence_ref": "/integrity/boot_integrity",
+            "op": "==",
+            "value": "present"
+          }
+        ]
+      },
+      {
+        "id": "SD-01",
+        "category": "secure_defaults",
+        "severity": "high",
+        "iec62443": [
+          "62443-4-2:CR 7.7",
+          "62443-4-2:CR 4.1",
+          "62443-4-1:SD-4"
+        ],
+        "checks": [
+          {
+            "evidence": "config.cleartext_services",
+            "path": [
+              "config",
+              "cleartext_services"
+            ],
+            "evidence_ref": "/config/cleartext_services",
+            "op": "empty",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "id": "SD-02",
+        "category": "secure_defaults",
+        "severity": "critical",
+        "iec62443": [
+          "62443-4-2:CR 1.5",
+          "62443-4-2:CR 1.7"
+        ],
+        "checks": [
+          {
+            "evidence": "config.empty_password_accounts",
+            "path": [
+              "config",
+              "empty_password_accounts"
+            ],
+            "evidence_ref": "/config/empty_password_accounts",
+            "op": "empty",
+            "value": ""
+          },
+          {
+            "evidence": "config.weak_hash_accounts",
+            "path": [
+              "config",
+              "weak_hash_accounts"
+            ],
+            "evidence_ref": "/config/weak_hash_accounts",
+            "op": "empty",
+            "value": ""
+          },
+          {
+            "evidence": "config.default_password_accounts",
+            "path": [
+              "config",
+              "default_password_accounts"
+            ],
+            "evidence_ref": "/config/default_password_accounts",
+            "op": "empty",
+            "value": ""
+          }
+        ]
+      },
+      {
+        "id": "SD-03",
+        "category": "secure_defaults",
+        "severity": "critical",
+        "iec62443": [
+          "62443-4-2:CR 1.5",
+          "62443-4-2:EDR 3.12"
+        ],
+        "checks": [
+          {
+            "evidence": "config.embedded_private_keys",
+            "path": [
+              "config",
+              "embedded_private_keys"
+            ],
+            "evidence_ref": "/config/embedded_private_keys",
+            "op": "empty",
+            "value": ""
+          }
+        ]
+      }
+    ],
+    "baseline": {
+      "name": "wago-fw22",
+      "hardening": {
+        "ratios": {
+          "canary": 0.032,
+          "nx": 0.9964,
+          "pie": 0.0534,
+          "relro_full": 0.0391,
+          "relro_partial": 0.9609,
+          "fortify": 0.0534
+        }
+      },
+      "vulns": {
+        "critical": 148
+      }
+    }
+  }
+}

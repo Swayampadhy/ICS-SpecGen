@@ -1,0 +1,18 @@
+# Supplier Security Requirements — {{ ev.target.product or ev.target.name }} firmware
+
+Derived from evidence of: {{ ev.target.vendor }} FW {{ ev.target.version }} (`{{ ev.target.image_file }}`, sha256 `{{ ev.target.image_sha256[:16] }}…`) | ICS-SpecGen {{ version }}
+
+Each clause is a contractual "shall" statement with an objective acceptance test. A ticked box means this
+firmware already meets the clause; an open box means the evidence triggered it (or it could not be evaluated).
+
+{% for cat, title in categories.items() %}
+## {{ title }}
+
+{% for f in fd.findings if f.category == cat %}
+- [{{ "x" if f.status == "PASS" else " " }}] **REQ-{{ f.rule_id }}** {{ f.requirement }}
+  - *Acceptance:* {{ f.acceptance_test }}.
+  - *Observed:* {% for c in f.checks %}{{ "; " if not loop.first }}`{{ c.evidence_ref }}` = {{ c.observed | fmt }} ({{ c.status }}){% endfor %}{{ "" }}
+  - *Ref:* IEC {{ f.iec62443 | join(", ") }} · *Severity:* {{ f.severity }} · *Status:* **{{ f.status }}**
+{% endfor %}
+
+{% endfor %}
